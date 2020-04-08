@@ -2,22 +2,50 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+function Welcome() {
+  return <h1>Welcome!</h1>;
+}
+
+function Logo() {
+  return (
+    <img src={logo} className="App-logo" alt="logo"/>
+  );
+}
+
+type ClockState = {
+  time: Date
+}
+
+class Clock extends React.Component<{}, ClockState> {
+  tick() {
+    this.setState({
+      time: new Date()
+    });
+  }
+
+  // Before the component mounts, we initialise our state
+  componentWillMount() {
+    this.tick();
+  }
+
+  // After the component did mount, we set the state each second.
+  componentDidMount() {
+    setInterval(() => this.tick(), 1000);
+  }
+
+  // render will know everything!
+  render() {
+    return <p>The current time is {this.state.time.toLocaleTimeString()}</p>
+  }
+}
+
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Welcome/>
+        <Logo/>
+        <Clock />
       </header>
     </div>
   );
